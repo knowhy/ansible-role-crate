@@ -1,6 +1,17 @@
 ---
 # tasks file for ansible-role-crateio
 
+- name: Ensure group for crate is present.
+  group:
+    name: crate
+    state: present
+
+- name: Ensure user for crate is present.
+  user:
+    name: crate
+    state: present
+    system: True
+
 - name: Ensure directories for crate are present.
   file:
     path: "{{ item }}"
