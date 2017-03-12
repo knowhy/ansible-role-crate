@@ -1,6 +1,8 @@
 ansible-role-crate
 ==================
 
+[![Build Status](https://travis-ci.org/knowhy/ansible-role-crate.svg?branch=master)](https://travis-ci.org/knowhy/ansible-role-crate)
+
 Ansible role to install crate.io.
 
 Requirements
