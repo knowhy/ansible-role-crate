@@ -1,0 +1,29 @@
+galaxy_info:
+  author: Henrik Pingel
+  description: Install crate.io application.
+
+  license: agpl-3.0
+
+  min_ansible_version: 2.2
+
+  github_branch: master
+
+  platforms:
+  - name: ArchLinux
+    versions:
+      - all
+      - any
+  - name: Ubuntu
+    versions:
+      - all
+  - name: Debian
+    versions:
+      - etch
+      - jessie
+      - wheezy
+
+  galaxy_tags:
+    - database
+    - crate
+
+dependencies: []

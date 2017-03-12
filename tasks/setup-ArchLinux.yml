@@ -1,0 +1,35 @@
+---
+
+- name: Install build dependencies.
+  pacman:
+    name: binutils
+    state: present
+
+- name: Ensure build directory is present.
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /opt/crate
+    - /opt/crate/builds
+
+- name: Download package archive.
+  get_url:
+    url: https://aur.archlinux.org/cgit/aur.git/snapshot/crate.tar.gz
+    dest: /opt/crate/builds/crate.tar.gz
+  register: download_status
+
+- block:
+
+    - name: Unpack package archive.
+      unarchive:
+        src: /opt/crate/builds/crate.tar.gz
+        dest: /opt/crate/builds/
+        remote_src: True
+
+    - name: Build and install package.
+      command: makepkg -sfi --noprogressbar --noconfirm
+      args:
+        chdir: /opt/crate/builds
+
+  when: download_status.changed

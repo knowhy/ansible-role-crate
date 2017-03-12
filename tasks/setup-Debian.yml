@@ -1,0 +1,36 @@
+---
+
+- name: Ensure install dependencies are present.
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Ensure key for WebUpd8Team repositories is present.
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: EEA14886
+
+- name: Ensure key for crate.io repositories is present.
+  apt_key:
+    url: https://cdn.crate.io/downloads/apt/DEB-GPG-KEY-crate
+    state: present
+
+- name: Ensure extra repositories are present.
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+    - "deb http://ppa.launchpad.net/webupd8team/java/ubuntu {{ ansible_distribution_release }} main"
+    - "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu {{ ansible_distribution_release }} main"
+    - "deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main"
+    - "deb https://cdn.crate.io/downloads/apt/stable/ {{ ansible_distribution_release }} main"
+    - "deb-src https://cdn.crate.io/downloads/apt/stable/ {{ ansible_distribution_release }} main"
+
+- name: Install packages.
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+    - crate

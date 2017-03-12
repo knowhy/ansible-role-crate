@@ -1,0 +1,11 @@
+---
+
+- name: Ensure GPG key RPM packages from crate.io is present.
+  rpm_key:
+    state: present
+    key: https://cdn.crate.io/downloads/yum/RPM-GPG-KEY-crate
+
+- name: Install crate rpm from crate.io repository.
+  yum:
+    name: "https://cdn.crate.io/downloads/yum/7/noarch/crate-release-7.0-1.noarch.rpm"
+    state: present

@@ -1,0 +1,34 @@
+---
+# tasks file for ansible-role-crateio
+
+- name: Ensure directories for crate are present.
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: crate
+    group: crate
+  with_items:
+    - /opt/crate
+    - /opt/crate/data
+    - /opt/crate/data/crate
+
+# Setup/install tasks.
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include: setup-Ubuntu.yml
+  when: ansible_os_family == 'Ubuntu'
+
+- include: setup-ArchLinux.yml
+  when: ansible_os_family == 'ArchLinux'
+
+- name: Start crate and enable crate at boot.
+  service:
+    name: crate
+    enabled: True
+    state: started
+
+#To checkout the admin UI open http://$(hostname -f):4200/admin in your browser
